@@ -29,6 +29,8 @@ contract DBookPlatform is Initializable{
     uint256 _customRatioMax;
     address _platformAddress;
 
+    uint256 _firstTradeFee;
+
     mapping(uint256 => address) internal _nftIdPublisherAddressMap;
     mapping(uint256 => uint256) internal _nftIdPublisherRatioMap;
     mapping(uint256 => uint256) internal _nftIdPriceMap;
@@ -82,8 +84,93 @@ contract DBookPlatform is Initializable{
         _version = version;
         _isFrozen = false;
         _customRatioMax = 10000;
+
+        _firstTradeFee = 0;
        
     }
+
+    /**
+     * @dev 8.pay first trade
+       @param  payValue the ustd for first trade Book
+     */
+    function payFirstTrade(uint256 payValue) external payable{
+
+      require(msg.value >= _firstTradeFee,"first trade fee too low");
+
+      bool transferResult = IERC20(_token20).transferFrom(msg.sender,_platformAddress,payValue);
+      require(transferResult,"send to platform failed");
+
+    }
+
+    /**
+     * @dev 8.run first trade
+      @param seller minted 1155 assect receive address
+      @param payValue  pay usdt to the seller
+      @param mintAmont mint the amout for 1155 nft
+      @param buyer use to buy the nft
+      @param nftId nftId for 1155 nft
+      @param amount amount for 1155 nft
+      @param metaData metadata for the trade 1155 ex 0x1234
+     */
+    function runFirstTrade(
+      address seller,
+      uint256 payValue,
+      uint256 mintAmont,
+      address buyer,
+      uint256 nftId,
+      uint256 amount,
+      bytes calldata metaData
+    ) external{
+
+      // require(msg.value >= payValue,"first pay value too low");
+
+      if(payValue > 0){
+  
+        bool transferResult = IERC20(_token20).transferFrom(msg.sender,seller,payValue);
+        require(transferResult,"send to platform failed");
+  
+      }
+
+      if(mintAmont > 0){
+        uint256 nftBalance = DBook1155(_token1155).balanceOf(seller,nftId);
+        if(nftBalance <= 0){
+            DBook1155(_token1155).mint(seller, nftId,mintAmont,"0x01");
+        }
+
+      }
+      require(
+          DBook1155(_token1155).balanceOf(seller,nftId) >= amount,
+          "selller do not have enough nft number"
+      );
+ 
+      //1.send the nft to receiver
+      DBook1155(_token1155).safeTransferFrom(seller,buyer,nftId,amount,metaData);
+
+    }
+
+    /**
+     * @dev 9.first trade fee
+     */
+    function getFirstTradeFee() external view returns(uint256){
+
+      return _firstTradeFee;
+
+    }
+
+    function withdrawMoneyTo(address payable _to) public onlyAdmin{
+        _to.transfer(address(this).balance);
+    }
+
+    /**
+     * @dev 9.first trade
+       @param  firstTradeFee first trade fee 
+     */
+    function setFirstTradeFee(uint256 firstTradeFee) external{
+
+      _firstTradeFee = firstTradeFee;
+
+    }
+
 
     /**
      * @dev 4.setVersion
