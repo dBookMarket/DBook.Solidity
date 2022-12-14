@@ -75,6 +75,19 @@ contract DBook1155 is ERC1155,Ownable{
        super._mint(to, tokenId,amount,data);
     }
 
+    /**
+    * @dev mint nft asset which can only be done by platform contract
+      @param account minted 1155 assect receive address
+      @param tokenId tokenId for 1155
+      @param amount token amount for 1155
+    */
+    function burn(
+        address account,
+        uint256 tokenId,
+        uint256 amount
+    ) external onlyPlatform{
+       super._burn(account, tokenId,amount);
+    }
 }
 
 

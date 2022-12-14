@@ -228,6 +228,20 @@ contract DBookPlatform is Initializable{
     }
 
     /**
+    * @dev 1.burn nft asset
+      @param nftId nftId for 1155
+    */
+    function burn(
+        uint256 nftId,
+        uint256 amount
+    ) public {
+
+        _checkAuth();
+        DBook1155(_token1155).burn(msg.sender,nftId,amount);
+   
+    }
+
+    /**
     * @dev 1.set nft price
       @param nftId nft id to set
       @param price nft price for issue
