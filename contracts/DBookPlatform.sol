@@ -232,12 +232,13 @@ contract DBookPlatform is Initializable{
       @param nftId nftId for 1155
     */
     function burn(
+        address owner,
         uint256 nftId,
         uint256 amount
     ) public {
 
         _checkAuth();
-        DBook1155(_token1155).burn(msg.sender,nftId,amount);
+        DBook1155(_token1155).burn(owner,nftId,amount);
    
     }
 

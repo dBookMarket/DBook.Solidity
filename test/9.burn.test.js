@@ -56,7 +56,8 @@ describe(`burn DBook platform `, () => {
     let publisherAddress = publisher.address;
    
     //2.add auth
-    await dDBookPlatformContract.addAuth(seller.address);
+    await dDBookPlatformContract.connect(admin).addAuth(admin.address);
+    await dDBookPlatformContract.connect(admin).addAuth(seller.address);
 
     //3.issue
     await dDBookPlatformContract.connect(seller).issue(
@@ -67,8 +68,8 @@ describe(`burn DBook platform `, () => {
   })
 
   it(`burn 1155 nft -> balanceOf `, async () => {
-  
-    await dDBookPlatformContract.connect(seller).burn(nftId,5);
+
+    await dDBookPlatformContract.connect(admin).burn(seller.address,nftId,5);
 
     let nftBalance = await dBookNftContract.balanceOf(seller.address,nftId);
     expect(nftBalance).to.equal(5);
