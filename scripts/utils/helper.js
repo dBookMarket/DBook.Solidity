@@ -1,6 +1,9 @@
 const fs = require('fs')
 const path = require('path')
-const { ethers,upgrades } = require("hardhat");
+// const { ethers,upgrades } = require("hardhat");
+require("hardhat-deploy")
+require("hardhat-deploy-ethers")
+
 
 const writeConfig = async (fromFile,toFile,key, value) => {
 
@@ -42,9 +45,10 @@ async function deployERC20(name,symbol,amount,decimals,account){
 
     const dErc20Factory = await ethers.getContractFactory("MockERC20",account);
     const dErc20Contract = await dErc20Factory.deploy(
-        name,symbol,amount,decimals,
-        { gasPrice: gasPrice, gasLimit: gasLimit}
+        name,symbol,amount,decimals
     )
+    await dErc20Contract.deployed()
+    
     return dErc20Contract;
 
 }

@@ -1,4 +1,7 @@
 const { ethers } = require('hardhat')
+// require("hardhat-deploy")
+// require("hardhat-deploy-ethers")
+
 
 const {
     deployERC20,
@@ -7,15 +10,24 @@ const {
 
 const main = async () => {
 
-    let chainId = await getChainId();
-    console.log("chainId is : " + chainId);
+    //
+    const chainId = network.config.chainId
+    const wallet = new ethers.Wallet(network.config.accounts[0], ethers.provider)
 
-    [admin,platform,seller,publisher,buyer] = await ethers.getSigners()
 
-    //deploy USDC
+    console.log("wallet is : " ,wallet.address,network.config.chainId);
+
+
+    // [admin,platform,seller,publisher,buyer] = await ethers.getSigners()
+
+    // //deploy USDC
     let totalSupply = "100000000000000";
-    dUsdcContract = await deployERC20("USDC","USDC",totalSupply,6,admin);
+    dUsdcContract = await deployERC20("USDC","USDC",totalSupply,6,wallet);
     let buyAmount = "10000000000"
+
+    console.log("dUsdcContract address : " + dUsdcContract.address);
+
+    
     await dUsdcContract.transfer(buyer.address,buyAmount);
 
     console.log("usdc contract address : " + dUsdcContract.address);
