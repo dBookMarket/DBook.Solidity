@@ -11,25 +11,17 @@ const {
 const main = async () => {
 
     //
-    const chainId = network.config.chainId
-    const wallet = new ethers.Wallet(network.config.accounts[0], ethers.provider)
+    const admin = new ethers.Wallet(network.config.accounts[0], ethers.provider)
+    const buyer = new ethers.Wallet(network.config.accounts[4], ethers.provider)
+    console.log("info is : " ,admin.address,buyer.address,network.config.chainId);
 
-
-    console.log("wallet is : " ,wallet.address,network.config.chainId);
-
-
-    // [admin,platform,seller,publisher,buyer] = await ethers.getSigners()
-
-    // //deploy USDC
+    //deploy USDC
     let totalSupply = "100000000000000";
-    dUsdcContract = await deployERC20("USDC","USDC",totalSupply,6,wallet);
+    dUsdcContract = await deployERC20("USDC","USDC",totalSupply,6,admin);
     let buyAmount = "10000000000"
 
-    console.log("dUsdcContract address : " + dUsdcContract.address);
-
-    
+    //
     await dUsdcContract.transfer(buyer.address,buyAmount);
-
     console.log("usdc contract address : " + dUsdcContract.address);
     await writeConfig(0,0,"USDC_ADDRESS",dUsdcContract.address);
   
