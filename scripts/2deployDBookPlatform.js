@@ -8,11 +8,13 @@ const {
 
 const main = async () => {
 
-    let chainId = await getChainId();
-    console.log("chainId is : " + chainId);
+    // let chainId = await getChainId();
+    // console.log("chainId is : " + chainId);
 
-    [admin,platform,seller,publisher,buyer] = await ethers.getSigners()
+    // [admin,platform,seller,publisher,buyer] = await ethers.getSigners()
 
+
+    const admin = new ethers.Wallet(network.config.accounts[0], ethers.provider);
     console.log("admin is :",admin.address);
 
     let usdcAddress = await readConfig(1,"USDC_ADDRESS");

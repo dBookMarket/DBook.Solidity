@@ -68,8 +68,7 @@ async function deployDBook1155(name,symbol,data,account){
 
     const dBook1155Factory = await ethers.getContractFactory("DBook1155",account);
     const dBookContract = await dBook1155Factory.deploy(
-        name,symbol,data,
-        { gasPrice: gasPrice, gasLimit: gasLimit}
+        name,symbol,data
     )
     return dBookContract;
 
@@ -97,8 +96,7 @@ async function deployDBookPlatform(token1155Address,token20Address,version,accou
         {
             initializer: "__DBookPlatform_init",
             unsafeAllowLinkedLibraries: true,
-        },
-        { gasPrice: gasPrice, gasLimit: gasLimit}
+        }
     );
     return dDBookPlatformContract;
 
