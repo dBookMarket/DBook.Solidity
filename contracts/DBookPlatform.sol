@@ -416,10 +416,12 @@ contract DBookPlatform is Initializable{
             _nftIdPriceMap[nftId] != 0,
             "nft Id does not set price"
         );
-        require(
-            tradeValue >= _nftIdPriceMap[nftId]*nftAmount,
-            "trace value is not enough"
-        );
+
+        // require(
+        //     tradeValue >= _nftIdPriceMap[nftId]*nftAmount,
+        //     "trace value is not enough"
+        // );
+        
         require(
             _nftIdPublisherRatioMap[nftId] != 0,
             "nft Id does not set ratio"
