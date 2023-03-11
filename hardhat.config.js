@@ -31,6 +31,7 @@ module.exports = {
     hyperspace: {
       chainId: 3141,
       url: "https://api.hyperspace.node.glif.io/rpc/v1",
+      //url: "https://rpc.ankr.com/filecoin_testnet",
       accounts: [
         "84dd3e2533549287cdab95904c7929c5b7dde2b941c87ebf8c93812c6c61cfe3",
         "3338d1eb41b6ab37a92f76a46e268675b0f10604ac8d6bf3ca025cd1cb66222f",
@@ -41,7 +42,7 @@ module.exports = {
     },
 
   },
-  solidity: '0.6.6',
+  solidity: '0.8.17',
   namedAccounts: {
     deployer: 0
   },

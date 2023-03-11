@@ -17,7 +17,7 @@ const main = async () => {
 
     //deploy USDC
     let totalSupply = "100000000000000";
-    dUsdcContract = await deployERC20("USDC","USDC",totalSupply,6,admin);
+    dUsdcContract = await deployERC20("USDC","USDC",totalSupply,admin);
     let buyAmount = "10000000000"
 
     //

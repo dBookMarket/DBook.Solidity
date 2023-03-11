@@ -26,6 +26,8 @@ const main = async () => {
     let dDBookPlatformContract = await attachDBookPlatform(admin,platformAddress);
     let dBookNftContract = await attachDBook1155(admin,dbookAddress);
     let dUsdcContract = await attachERC20(admin,dUsdcAddress);
+    let maxFeePerGas = 0x02540be400 * 3;
+    let maxPriorityFeePerGas = 0x02540be400 * 2;
   
     //1. param
     let to = seller.address;
@@ -36,17 +38,28 @@ const main = async () => {
     let fee = "1000000";
     tradeValue = "10000000";
 
+    console.log("xxl buyer ",buyer.address);
+
     //2.show before usdc
     await showUsdcBalace(dUsdcContract,"before");
     await showNftBalace(dBookNftContract,"before",nftId);
 
-    await dDBookPlatformContract.connect(buyer).trade(
-      seller.address,buyer.address,nftId,2,data,tradeValue,fee,
-      {gasPrice: gasPrice, gasLimit: gasLimit}
+    console.log("xxl txObj :",seller.address,buyer.address);
+
+
+    let pubAddress = await dDBookPlatformContract.getPublisherAddress(nftId);
+    console.log("xxl pubAddress ",pubAddress);
+
+    let platAddress = await dDBookPlatformContract.getPlatformAddress();
+    console.log("xxl platAddress ",platAddress);
+    
+
+    let txObj = await dDBookPlatformContract.connect(buyer).trade(
+      seller.address,buyer.address,nftId,2,data,tradeValue,fee
     );
 
-    //let rep = await txObj.wait();
-    //console.log(rep);
+    let rep = await txObj.wait();
+    console.log(rep);
     await sleep(5000);
     //4.show before nftId
     console.log("\n---------------------------------------------\n");

@@ -41,11 +41,12 @@ function sleep(ms) {
 let gasPrice = 0x02540be400;
 let gasLimit = 0x7a1200;
 
-async function deployERC20(name,symbol,amount,decimals,account){
+//0 USDT
+async function deployERC20(name,symbol,amount,account){
 
     const dErc20Factory = await ethers.getContractFactory("MockERC20",account);
     const dErc20Contract = await dErc20Factory.deploy(
-        name,symbol,amount,decimals
+        name,symbol,amount
     )
     await dErc20Contract.deployed()
     
@@ -64,12 +65,15 @@ async function attachERC20(account,address){
 
 }
 
+//1 DBOOK
 async function deployDBook1155(name,symbol,data,account){
 
     const dBook1155Factory = await ethers.getContractFactory("DBook1155",account);
     const dBookContract = await dBook1155Factory.deploy(
         name,symbol,data
     )
+    await dBookContract.deployed()
+
     return dBookContract;
 
 }
@@ -85,6 +89,7 @@ async function attachDBook1155(account,address){
 
 }
 
+//2 dbook platform
 async function deployDBookPlatform(token1155Address,token20Address,version,account){
 
     const dDBookPlatformFactory = await ethers.getContractFactory("DBookPlatform",account);
@@ -98,6 +103,8 @@ async function deployDBookPlatform(token1155Address,token20Address,version,accou
             unsafeAllowLinkedLibraries: true,
         }
     );
+    await dDBookPlatformContract.deployed()
+
     return dDBookPlatformContract;
 
 }

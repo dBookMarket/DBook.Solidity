@@ -1,10 +1,11 @@
-pragma solidity 0.6.6;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
 
-import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 import "./DBook1155.sol";
 import "hardhat/console.sol";
@@ -207,6 +208,7 @@ contract DBookPlatform is Initializable{
         address publisherAddress,
         uint256 publisherRatio
     ) external notFrozed{
+    // ) external { 
 
         _checkAuth();
 
@@ -416,10 +418,10 @@ contract DBookPlatform is Initializable{
             _nftIdPriceMap[nftId] != 0,
             "nft Id does not set price"
         );
-        require(
-            tradeValue >= _nftIdPriceMap[nftId]*nftAmount,
-            "trace value is not enough"
-        );
+        // require(
+        //     tradeValue >= _nftIdPriceMap[nftId]*nftAmount,
+        //     "trace value is not enough"
+        // );
         require(
             _nftIdPublisherRatioMap[nftId] != 0,
             "nft Id does not set ratio"

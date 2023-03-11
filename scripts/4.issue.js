@@ -30,17 +30,22 @@ const main = async () => {
     let price = "5000000";
     let publisherAddress = publisher.address;
     let publisherRatio = 2000 //%% 
+    let maxFeePerGas = 0x02540be400 * 3;
+    let maxPriorityFeePerGas = 0x02540be400 * 2;
+
     let gasPrice = 0x02540be400;
     let gasLimit = 0x7a1200;
 
-    //2.show before usdc
+    // 2.show before usdc
     await showNftBalace(dBookNftContract,"before",nftId);
+    console.log("seller.address : " ,seller.address);
 
     //3.add auth
     await dDBookPlatformContract.addAuth(seller.address);
+
+
     let txObj = await dDBookPlatformContract.connect(seller).issue(
-      to,nftId,amount,data,price,publisherAddress,publisherRatio,
-      {gasPrice: gasPrice, gasLimit: gasLimit}
+      to,nftId,amount,data,price,publisherAddress,publisherRatio
     );
 
     let rep = await txObj.wait();

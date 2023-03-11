@@ -8,8 +8,7 @@ const {
 const main = async () => {
 
     const admin = new ethers.Wallet(network.config.accounts[0], ethers.provider)
-
-    console.log("chainId is : " + network.config.chainId,admin.address);
+    console.log("deploy DBook is : " ,admin.address,network.config.chainId);
 
 
     let dBookNftContract = await deployDBook1155("DBOOK2","DBK","0x01",admin);
